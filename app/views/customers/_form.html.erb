@@ -1,0 +1,60 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Customer Profile</h2>
+      <p>Customer details used for invoices and records</p>
+    </div>
+
+    <%= form_for @customer do |f| %>
+
+      <% if @customer.errors.any? %>
+        <div class="company-errors">
+          <ul>
+            <% @customer.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- ===== CUSTOMER DETAILS ===== -->
+      <div class="form-section">
+        <h4>Customer Details</h4>
+
+        <div class="form-field">
+          <%= f.label :name, "Company Name" %>
+          <%= f.text_field :name, placeholder: "XYZ Enterprises" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :address %>
+          <%= f.text_area :address,
+                rows: 2,
+                placeholder: "Street, City, State" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :phone %>
+          <%= f.text_field :phone, placeholder: "+91 9XXXXXXXXX" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :gst_number, "GST Number" %>
+          <%= f.text_field :gst_number,
+                placeholder: "27ABCDE1234F1Z5" %>
+        </div>
+      </div>
+
+      <!-- ===== ACTIONS ===== -->
+      <div class="form-actions">
+        <%= f.submit "Save Customer", class: "primary-btn" %>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

@@ -1,0 +1,267 @@
+/* ================= LIST HEADER ================= */
+.company-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.company-list-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #020617;
+  margin-bottom: 4px;
+}
+
+.company-list-header p {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ================= TABLE ================= */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.enterprise-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.enterprise-table thead th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.enterprise-table tbody td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: #020617;
+}
+
+.enterprise-table tbody tr:hover {
+  background: rgba(56, 189, 248, 0.08);
+}
+
+/* ================= ACTION BUTTONS ================= */
+.table-btn {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 6px;
+}
+
+.view-btn {
+  background: rgba(56, 189, 248, 0.15);
+  color: #0284c7;
+}
+
+.edit-btn {
+  background: rgba(251, 191, 36, 0.2);
+  color: #92400e;
+}
+
+.view-btn:hover,
+.edit-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* ================= EMPTY STATE ================= */
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ================= SHOW HEADER ================= */
+.company-show-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.company-show-header h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #020617;
+  margin-bottom: 4px;
+}
+
+.company-show-header p {
+  font-size: 13px;
+  color: #64748b;
+}
+
+.company-show-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* ================= SECONDARY BUTTON ================= */
+.secondary-btn {
+  padding: 12px 22px;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.05);
+  color: #020617;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.secondary-btn:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* ================= DETAILS ================= */
+.details-section {
+  margin-bottom: 34px;
+}
+
+.details-section h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #0f172a;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
+.details-grid label,
+.details-block label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.details-grid p,
+.details-block p {
+  font-size: 14px;
+  color: #020617;
+  margin: 0;
+}
+
+/* ================= ADDRESS ================= */
+.details-block {
+  max-width: 60%;
+}
+
+/* === Row Layout for Dropdowns === */
+.form-row {
+  display: flex;
+  gap: 16px; /* spacing between columns */
+  flex-wrap: wrap;
+}
+
+/* Each dropdown half width */
+.form-row .half-width {
+  flex: 1; /* equal width for both */
+}
+
+/* === Professional Dropdowns === */
+select.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15); /* slightly more visible */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.2); /* visible border even without selection */
+  color: #020617; /* dark text */
+  font-size: 14px;
+  outline: none;
+  transition: all 0.25s ease;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+}
+
+/* Focus / hover accent */
+select.form-control:focus {
+  border-color: #38bdf8;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.25);
+}
+
+/* Optional arrow */
+select.form-control::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Relative positioning for arrow */
+.form-field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.enterprise-table th,
+.enterprise-table td {
+  white-space: nowrap;        /* Prevent text wrapping */
+  overflow: hidden;           /* Hide overflow */
+  text-overflow: ellipsis;    /* Show ... for long text */
+  max-width: 150px;           /* Adjust column width as needed */
+  padding: 0.5rem 0.75rem;
+}
+
+.enterprise-table th:nth-child(5),
+.enterprise-table td:nth-child(5) {
+  max-width: 200px;           /* Customer column wider */
+}
+
+.enterprise-table th:nth-child(4),
+.enterprise-table td:nth-child(4) {
+  max-width: 150px;           /* Item column */
+}
+
+.enterprise-table th:nth-child(6),
+.enterprise-table td:nth-child(6) {
+  max-width: 150px;           /* Destination column */
+}
+
+.table-wrapper {
+  overflow-x: auto;           /* Horizontal scroll if needed */
+}
+
+.table-btn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  margin-left: 0.2rem;
+}
+
+.weight-input {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.weight-input input {
+  flex: 2;
+}
+
+.weight-input select {
+  flex: 1;
+}
+

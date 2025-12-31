@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251231052151) do
+ActiveRecord::Schema.define(version: 20251231154645) do
+
+  create_table "bank_accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "company_id"
+    t.string   "bank_name"
+    t.string   "account_number"
+    t.string   "ifsc_code"
+    t.string   "branch"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["company_id"], name: "index_bank_accounts_on_company_id", using: :btree
+  end
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "bill_id"
@@ -42,19 +53,51 @@ ActiveRecord::Schema.define(version: 20251231052151) do
 
   create_table "companies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "name"
-    t.text     "address",    limit: 65535
+    t.text     "address",      limit: 65535
     t.string   "gst_number"
     t.string   "phone"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.string   "udyam_number"
   end
 
   create_table "customers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "name"
     t.string   "phone"
     t.string   "gst_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.text     "address",    limit: 65535
+  end
+
+  create_table "invoice_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "invoice_id"
+    t.string   "product_name",                                            null: false
+    t.date     "dispatch_date"
+    t.string   "challan_number"
+    t.string   "destination"
+    t.decimal  "weight",         precision: 10, scale: 3, default: "0.0"
+    t.decimal  "amount",         precision: 12, scale: 2, default: "0.0"
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.string   "weight_unit"
+    t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id", using: :btree
+  end
+
+  create_table "invoices", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.string   "invoice_number",                                          null: false
+    t.date     "invoice_date",                                            null: false
+    t.integer  "company_id"
+    t.integer  "customer_id"
+    t.decimal  "subtotal",       precision: 12, scale: 2, default: "0.0"
+    t.decimal  "gst_total",      precision: 12, scale: 2, default: "0.0"
+    t.decimal  "round_off",      precision: 12, scale: 2, default: "0.0"
+    t.decimal  "total_amount",   precision: 12, scale: 2, default: "0.0"
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.index ["company_id"], name: "index_invoices_on_company_id", using: :btree
+    t.index ["customer_id"], name: "index_invoices_on_customer_id", using: :btree
+    t.index ["invoice_number"], name: "index_invoices_on_invoice_number", unique: true, using: :btree
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -78,8 +121,12 @@ ActiveRecord::Schema.define(version: 20251231052151) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  add_foreign_key "bank_accounts", "companies"
   add_foreign_key "bill_items", "bills"
   add_foreign_key "bill_items", "products"
   add_foreign_key "bills", "companies"
   add_foreign_key "bills", "customers"
+  add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoices", "companies"
+  add_foreign_key "invoices", "customers"
 end

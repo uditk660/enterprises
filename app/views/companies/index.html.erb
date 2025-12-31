@@ -1,0 +1,62 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Companies</h2>
+        <p>Manage registered companies for billing</p>
+      </div>
+
+      <%= link_to "Add Company",
+            new_company_path,
+            class: "primary-btn" %>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>GST Number</th>
+            <th>Phone</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @companies.each do |company| %>
+            <tr>
+              <td>
+                <strong><%= company.name %></strong>
+              </td>
+              <td><%= company.gst_number.presence || "-" %></td>
+              <td><%= company.phone.presence || "-" %></td>
+              <td class="text-end">
+                <%= link_to "View",
+                      company_path(company),
+                      class: "table-btn view-btn" %>
+
+                <%= link_to "Edit",
+                      edit_company_path(company),
+                      class: "table-btn edit-btn" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @companies.empty? %>
+            <tr>
+              <td colspan="4" class="empty-state">
+                No companies found. Click “Add Company” to create one.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
