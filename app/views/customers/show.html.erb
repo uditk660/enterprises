@@ -1,0 +1,42 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-show-header">
+      <div>
+        <h2><%= @customer.name %></h2>
+        <p>Customer profile details used for invoices and records</p>
+      </div>
+
+      <div class="company-show-actions">
+        <%= link_to "Edit", edit_customer_path(@customer), class: "primary-btn" %>
+        <%= link_to "Back", customers_path, class: "secondary-btn" %>
+      </div>
+    </div>
+
+    <!-- ===== CUSTOMER DETAILS ===== -->
+    <div class="details-section">
+      <h4>Customer Details</h4>
+
+      <div class="details-grid">
+        <div>
+          <label>GST Number</label>
+          <p><%= @customer.gst_number.presence || "-" %></p>
+        </div>
+
+        <div>
+          <label>Phone</label>
+          <p><%= @customer.phone.presence || "-" %></p>
+        </div>
+      </div>
+
+      <div class="details-block">
+        <label>Address</label>
+        <p><%= @customer.address.presence || "-" %></p>
+      </div>
+    </div>
+
+  </div>
+
+</div>

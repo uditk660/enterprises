@@ -1,0 +1,94 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-show-header">
+      <div>
+        <h2>Invoice <%= @invoice.invoice_number %></h2>
+        <p>Details of the invoice including line items and totals</p>
+      </div>
+
+      <div class="company-show-actions">
+        <%= link_to "Back", invoices_path, class: "secondary-btn" %>
+      </div>
+    </div>
+
+    <!-- ===== MAIN DETAILS ===== -->
+    <div class="details-section">
+      <h4>Invoice Details</h4>
+      <div class="details-grid">
+        <div>
+          <label>Company</label>
+          <p><%= @invoice.company.name %></p>
+        </div>
+
+        <div>
+          <label>Customer</label>
+          <p><%= @invoice.customer.name %></p>
+        </div>
+
+        <div>
+          <label>Invoice Date</label>
+          <p><%= @invoice.invoice_date %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LINE ITEMS ===== -->
+    <div class="details-section mt-4">
+      <h4>Invoice Items</h4>
+      <div class="table-wrapper">
+        <table class="enterprise-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Dispatch Date</th>
+              <th>Challan Number</th>
+              <th>Destination</th>
+              <th>Weight</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @invoice.invoice_items.each do |item| %>
+              <tr>
+                <td><%= item.product_name %></td>
+                <td><%= item.dispatch_date %></td>
+                <td><%= item.challan_number %></td>
+                <td><%= item.destination %></td>
+                <td><%= item.weight %></td>
+                <td><%= number_to_currency(item.amount, unit: "₹") %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== TOTALS ===== -->
+    <div class="details-section mt-4">
+      <h4>Totals</h4>
+      <div class="details-grid">
+        <div>
+          <label>Subtotal</label>
+          <p><%= number_to_currency(@invoice.subtotal, unit: "₹") %></p>
+        </div>
+        <div>
+          <label>GST</label>
+          <p><%= number_to_currency(@invoice.gst_total, unit: "₹") %></p>
+        </div>
+        <div>
+          <label>Round Off</label>
+          <p><%= number_to_currency(@invoice.round_off, unit: "₹") %></p>
+        </div>
+        <div>
+          <label>Total Amount</label>
+          <p><%= number_to_currency(@invoice.total_amount, unit: "₹") %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

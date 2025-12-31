@@ -1,0 +1,89 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Company Profile</h2>
+      <p>Business and bank details used on invoices</p>
+    </div>
+
+    <%= form_for @company do |f| %>
+
+      <% if @company.errors.any? %>
+        <div class="company-errors">
+          <ul>
+            <% @company.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- ===== COMPANY DETAILS ===== -->
+      <div class="form-section">
+        <h4>Company Details</h4>
+
+        <div class="form-field">
+          <%= f.label :name, "Company Name" %>
+          <%= f.text_field :name, placeholder: "ABC Traders Pvt Ltd" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :address %>
+          <%= f.text_area :address, rows: 2, placeholder: "Street, City, State" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :phone %>
+          <%= f.text_field :phone, placeholder: "+91 9XXXXXXXXX" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :gst_number, "GST Number" %>
+          <%= f.text_field :gst_number, placeholder: "27ABCDE1234F1Z5" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :udyam_number, "Udyam Registration No" %>
+          <%= f.text_field :udyam_number, placeholder: "UDYAM-MH-00-0000000" %>
+        </div>
+      </div>
+
+      <!-- ===== BANK DETAILS ===== -->
+      <div class="form-section">
+        <h4>Bank Details</h4>
+
+        <%= f.fields_for :bank_account do |b| %>
+          <div class="form-field">
+            <%= b.label :bank_name %>
+            <%= b.text_field :bank_name, placeholder: "State Bank of India" %>
+          </div>
+
+          <div class="form-field">
+            <%= b.label :account_number %>
+            <%= b.text_field :account_number, placeholder: "XXXXXXXXXXXX" %>
+          </div>
+
+          <div class="form-field">
+            <%= b.label :ifsc_code, "IFSC Code" %>
+            <%= b.text_field :ifsc_code, placeholder: "SBIN0001234" %>
+          </div>
+
+          <div class="form-field">
+            <%= b.label :branch %>
+            <%= b.text_field :branch, placeholder: "Andheri East" %>
+          </div>
+        <% end %>
+      </div>
+
+      <!-- ===== ACTIONS ===== -->
+      <div class="form-actions">
+        <%= f.submit "Save Company", class: "primary-btn" %>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

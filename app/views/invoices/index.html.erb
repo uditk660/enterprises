@@ -1,0 +1,71 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Invoices</h2>
+        <p>All invoices generated for customers</p>
+      </div>
+
+      <%= link_to "New Invoice",
+            new_invoice_path,
+            class: "primary-btn" %>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Invoice Number</th>
+            <th>Date</th>
+            <th>Item</th>
+            <th>Customer</th>
+            <th>Destination</th>
+            <th>Weight</th>
+            <th>Total Amount</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @invoices.each_with_index do |invoice, i| %>
+            <% invoice.invoice_items.each do |item| %>
+              <tr>
+                <td><%= i + 1 %></td>
+                <td><strong><%= invoice.invoice_number %></strong></td>
+                <td><%= invoice.invoice_date.strftime("%d-%b-%Y") %></td>
+                <td><%= item.product_name %></td>
+                <td><%= invoice.customer.name %></td>
+                <td><%= item.destination %></td>
+                <td><%= "#{item.weight} #{item.weight_unit}" %></td>
+                <td><%= number_to_currency(item.amount, unit: "₹") %></td>
+                <td class="text-end">
+                  <%= link_to "Show", invoice_path(invoice), class: "table-btn view-btn" %>
+                  <%= link_to "Edit", edit_invoice_path(invoice), class: "table-btn edit-btn" %>
+                  <%= link_to "Delete", invoice_path(invoice),
+                        method: :delete,
+                        data: { confirm: "Are you sure?" },
+                        class: "table-btn delete-btn" %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+
+          <% if @invoices.empty? %>
+            <tr>
+              <td colspan="8" class="empty-state">
+                No invoices found. Click “New Invoice” to create one.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>

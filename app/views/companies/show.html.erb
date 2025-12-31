@@ -1,0 +1,81 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-show-header">
+      <div>
+        <h2><%= @company.name %></h2>
+        <p>Company profile & billing details</p>
+      </div>
+
+      <div class="company-show-actions">
+        <%= link_to "Edit",
+              edit_company_path(@company),
+              class: "primary-btn" %>
+
+        <%= link_to "Back",
+              companies_path,
+              class: "secondary-btn" %>
+      </div>
+    </div>
+
+    <!-- ===== COMPANY DETAILS ===== -->
+    <div class="details-section">
+      <h4>Company Details</h4>
+
+      <div class="details-grid">
+        <div>
+          <label>GST Number</label>
+          <p><%= @company.gst_number.presence || "-" %></p>
+        </div>
+
+        <div>
+          <label>Udyam Registration</label>
+          <p><%= @company.udyam_number.presence || "-" %></p>
+        </div>
+
+        <div>
+          <label>Phone</label>
+          <p><%= @company.phone.presence || "-" %></p>
+        </div>
+      </div>
+
+      <div class="details-block">
+        <label>Address</label>
+        <p><%= simple_format(@company.address.presence || "-") %></p>
+      </div>
+    </div>
+
+    <!-- ===== BANK DETAILS ===== -->
+    <% if @company.bank_account %>
+      <div class="details-section">
+        <h4>Bank Details</h4>
+
+        <div class="details-grid">
+          <div>
+            <label>Bank Name</label>
+            <p><%= @company.bank_account.bank_name %></p>
+          </div>
+
+          <div>
+            <label>Account Number</label>
+            <p><%= @company.bank_account.account_number %></p>
+          </div>
+
+          <div>
+            <label>IFSC Code</label>
+            <p><%= @company.bank_account.ifsc_code %></p>
+          </div>
+
+          <div>
+            <label>Branch</label>
+            <p><%= @company.bank_account.branch %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

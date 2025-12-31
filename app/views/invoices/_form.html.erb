@@ -1,0 +1,116 @@
+<div class="company-page">
+  <div class="company-glass-card">
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Invoice Form</h2>
+      <p>Create or edit invoice with detailed items</p>
+    </div>
+
+    <%= form_for @invoice do |f| %>
+
+      <% if @invoice.errors.any? %>
+        <div class="company-errors">
+          <ul>
+            <% @invoice.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- ===== INVOICE MAIN DETAILS ===== -->
+      <div class="form-section">
+
+        <div class="form-section">
+
+          <div class="form-row">
+            <div class="form-field half-width">
+              <%= f.label :company_id, "Company" %>
+              <%= f.collection_select :company_id, Company.all, :id, :name, 
+                    { prompt: "Select Company" }, 
+                    { class: "form-control" } %>
+            </div>
+
+            <div class="form-field half-width">
+              <%= f.label :customer_id, "Customer" %>
+              <%= f.collection_select :customer_id, Customer.all, :id, :name, 
+                    { prompt: "Select Customer" }, 
+                    { class: "form-control" } %>
+            </div>
+            </div>
+
+            <!-- Invoice Number & Date below -->
+            <div class="form-field">
+              <%= f.label :invoice_number %>
+              <%= f.text_field :invoice_number, class: "form-control", readonly: true %>
+            </div>
+
+            <div class="form-field">
+              <%= f.label :invoice_date %>
+              <%= f.date_field :invoice_date, class: "form-control" %>
+            </div>
+
+          </div>
+        </div>
+
+      <!-- ===== INVOICE ITEMS ===== -->
+      <div class="form-section mt-4">
+        <h4>Invoice Items</h4>
+
+        <%= f.fields_for :invoice_items do |item| %>
+          <div class="invoice-item border p-3 mb-2 rounded-lg">
+
+            <div class="form-field">
+              <%= item.label :product_name %>
+              <%= item.text_field :product_name, class: "form-control" %>
+            </div>
+
+            <div class="form-field">
+              <%= item.label :dispatch_date %>
+              <%= item.date_field :dispatch_date, class: "form-control" %>
+            </div>
+
+            <div class="form-field">
+              <%= item.label :challan_number %>
+              <%= item.text_field :challan_number, class: "form-control" %>
+            </div>
+
+            <div class="form-field">
+              <%= item.label :destination %>
+              <%= item.text_field :destination, class: "form-control" %>
+            </div>
+
+            <div class="form-field">
+              <%= item.label :weight %>
+              <div class="weight-input">
+                <%= item.number_field :weight, step: 0.01, class: "form-control", placeholder: "0.00" %>
+                <%= item.select :weight_unit, InvoiceItem::WEIGHT_UNITS, {}, class: "form-control weight-unit-select" %>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <%= item.label :amount %>
+              <%= item.number_field :amount, step: 0.01, class: "form-control" %>
+            </div>
+
+            <div class="form-field mt-2">
+              <%= item.check_box :_destroy %>
+              <%= item.label :_destroy, "Remove Item" %>
+            </div>
+
+          </div>
+        <% end %>
+
+      </div>
+
+      <!-- ===== SUBMIT ===== -->
+      <div class="form-actions mt-4">
+        <%= f.submit @invoice.new_record? ? "Create Invoice" : "Update Invoice", 
+              class: "primary-btn" %>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

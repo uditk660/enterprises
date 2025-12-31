@@ -1,0 +1,60 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Customers</h2>
+        <p>Manage all registered customers for billing</p>
+      </div>
+
+      <%= link_to "Add Customer",
+            new_customer_path,
+            class: "primary-btn" %>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>Customer Name</th>
+            <th>GST Number</th>
+            <th>Phone</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @customers.each do |customer| %>
+            <tr>
+              <td><strong><%= customer.name %></strong></td>
+              <td><%= customer.gst_number.presence || "-" %></td>
+              <td><%= customer.phone.presence || "-" %></td>
+              <td class="text-end">
+                <%= link_to "View",
+                      customer_path(customer),
+                      class: "table-btn view-btn" %>
+
+                <%= link_to "Edit",
+                      edit_customer_path(customer),
+                      class: "table-btn edit-btn" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @customers.empty? %>
+            <tr>
+              <td colspan="4" class="empty-state">
+                No customers found. Click “Add Customer” to create one.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>
