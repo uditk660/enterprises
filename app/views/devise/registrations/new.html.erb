@@ -1,0 +1,55 @@
+<div class="auth-page">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">₹</div>
+      <h2>Create Account</h2>
+      <p>Start managing billing professionally</p>
+    </div>
+
+    <%= form_for(resource,
+          as: resource_name,
+          url: registration_path(resource_name),
+          html: { class: "auth-form" }) do |f| %>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="auth-field">
+        <%= f.label :email %>
+        <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              placeholder: "you@company.com" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :password %>
+        <% if @minimum_password_length %>
+          <small class="auth-hint">
+            Minimum <%= @minimum_password_length %> characters
+          </small>
+        <% end %>
+        <%= f.password_field :password,
+              autocomplete: "new-password",
+              placeholder: "••••••••" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation,
+              autocomplete: "new-password",
+              placeholder: "••••••••" %>
+      </div>
+
+      <div class="auth-actions">
+        <%= f.submit "Sign up", class: "auth-submit" %>
+      </div>
+
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+
+</div>

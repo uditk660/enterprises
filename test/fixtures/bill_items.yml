@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bill: one
+  product: one
+  quantity: 1
+  rate: 
+  rate: 
+  tax_percentage: 
+  tax_percentage: 
+  line_total: 
+  line_total: 
+
+two:
+  bill: two
+  product: two
+  quantity: 1
+  rate: 
+  rate: 
+  tax_percentage: 
+  tax_percentage: 
+  line_total: 
+  line_total: 
