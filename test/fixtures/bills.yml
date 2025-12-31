@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  bill_number: MyString
+  date: 2025-12-31
+  company: one
+  customer: one
+  subtotal: 
+  subtotal: 
+  tax_amount: 
+  tax_amount: 
+  round_off: 
+  round_off: 
+  total: 
+  total: 
+
+two:
+  bill_number: MyString
+  date: 2025-12-31
+  company: two
+  customer: two
+  subtotal: 
+  subtotal: 
+  tax_amount: 
+  tax_amount: 
+  round_off: 
+  round_off: 
+  total: 
+  total: 

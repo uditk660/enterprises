@@ -1,0 +1,25 @@
+<h2>Bill <%= @bill.bill_number %></h2>
+
+<p>Date: <%= @bill.date %></p>
+
+<table class="table table-bordered">
+  <tr>
+    <th>Product</th>
+    <th>Qty</th>
+    <th>Rate</th>
+    <th>Tax %</th>
+    <th>Total</th>
+  </tr>
+
+  <% @bill.bill_items.each do |item| %>
+    <tr>
+      <td><%= item.product.name %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.rate %></td>
+      <td><%= item.tax_percentage %></td>
+      <td><%= item.line_total %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><strong>Grand Total:</strong> <%= number_to_currency(@bill.total) %></p>

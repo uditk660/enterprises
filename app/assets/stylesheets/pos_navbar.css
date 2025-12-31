@@ -1,0 +1,194 @@
+/* === ROOT VARIABLES === */
+:root {
+  --bg-dark: #0f172a;
+  --bg-glass: rgba(255, 255, 255, 0.08);
+  --accent: #38bdf8;
+  --text-light: #e5e7eb;
+  --muted: #9ca3af;
+  --danger: #ef4444;
+}
+
+/* === NAVBAR WRAPPER === */
+.pos-navbar {
+  background: linear-gradient(135deg, #020617, #0f172a);
+  padding: 14px 28px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* === INNER CONTAINER === */
+.pos-navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  padding: 14px 22px;
+}
+
+/* === BRAND === */
+.pos-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pos-logo {
+  width: 44px;
+  height: 44px;
+  background: radial-gradient(circle at top, #38bdf8, #0284c7);
+  color: #020617;
+  font-weight: 800;
+  font-size: 22px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pos-brand-text .title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-light);
+  letter-spacing: 0.3px;
+}
+
+.pos-brand-text .subtitle {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: -2px;
+}
+
+/* === NAV LINKS === */
+.pos-nav-links {
+  display: flex;
+  gap: 26px;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  padding: 6px 0;
+  transition: all 0.25s ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover {
+  color: var(--accent);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link.disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* === USER SECTION === */
+.pos-user {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.user-info {
+  text-align: right;
+}
+
+.user-info .name {
+  display: block;
+  font-size: 13px;
+  color: var(--text-light);
+  font-weight: 600;
+}
+
+.user-info .role {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* === LOGOUT BUTTON === */
+.logout-btn {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--danger);
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.logout-btn:hover {
+  background: var(--danger);
+  color: white;
+}
+
+/* === PRINT SAFETY === */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* === AUTH BUTTONS (LOGGED OUT) === */
+.pos-auth {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Base button */
+.auth-btn {
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* Login button */
+.auth-btn.login {
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.auth-btn.login:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Sign up button */
+.auth-btn.signup {
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  color: #020617;
+  box-shadow: 0 8px 22px rgba(56, 189, 248, 0.35);
+}
+
+.auth-btn.signup:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 28px rgba(56, 189, 248, 0.5);
+}

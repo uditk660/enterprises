@@ -1,0 +1,46 @@
+<h2>New Bill</h2>
+
+<%= form_for @bill do |f| %>
+
+  <div class="row">
+    <div class="col-md-4">
+      <%= f.label :bill_number %>
+      <%= f.text_field :bill_number, class: 'form-control' %>
+    </div>
+
+    <div class="col-md-4">
+      <%= f.label :date %>
+      <%= f.date_field :date, class: 'form-control' %>
+    </div>
+  </div>
+
+  <hr>
+
+  <%= f.fields_for :bill_items do |bi| %>
+    <div class="row">
+      <div class="col-md-4">
+        <%= bi.label :product_id %>
+        <%= bi.collection_select :product_id, Product.all, :id, :name, {}, class: 'form-control' %>
+      </div>
+
+      <div class="col-md-2">
+        <%= bi.label :quantity %>
+        <%= bi.number_field :quantity, class: 'form-control' %>
+      </div>
+
+      <div class="col-md-2">
+        <%= bi.label :rate %>
+        <%= bi.number_field :rate, step: 0.01, class: 'form-control' %>
+      </div>
+
+      <div class="col-md-2">
+        <%= bi.label :tax_percentage %>
+        <%= bi.number_field :tax_percentage, step: 0.01, class: 'form-control' %>
+      </div>
+    </div>
+  <% end %>
+
+  <br>
+  <%= f.submit 'Create Bill', class: 'btn btn-success' %>
+
+<% end %>

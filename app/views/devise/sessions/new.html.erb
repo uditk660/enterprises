@@ -1,0 +1,45 @@
+<div class="auth-page">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">₹</div>
+      <h2>Welcome Back</h2>
+      <p>Login to your billing dashboard</p>
+    </div>
+
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "auth-form" }) do |f| %>
+
+      <div class="auth-field">
+        <%= f.label :email %>
+        <%= f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              placeholder: "you@company.com" %>
+      </div>
+
+      <div class="auth-field">
+        <%= f.label :password %>
+        <%= f.password_field :password,
+              autocomplete: "current-password",
+              placeholder: "••••••••" %>
+      </div>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="auth-remember">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <div class="auth-actions">
+        <%= f.submit "Log in", class: "auth-submit" %>
+      </div>
+
+    <% end %>
+
+    <div class="auth-links">
+      <%= render "devise/shared/links" %>
+    </div>
+  </div>
+
+</div>
