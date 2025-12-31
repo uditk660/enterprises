@@ -1,0 +1,89 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-show-header">
+      <div>
+        <h2>Payment Receipt</h2>
+        <p>Payment details & ledger impact</p>
+      </div>
+
+      <div class="company-show-actions">
+        <%= link_to "Back",
+              customer_payments_path,
+              class: "secondary-btn" %>
+      </div>
+    </div>
+
+    <!-- ===== PAYMENT DETAILS ===== -->
+    <div class="details-section">
+      <h4>Payment Details</h4>
+
+      <div class="details-grid">
+        <div>
+          <label>Date</label>
+          <p><%= @payment.payment_date.strftime("%d-%b-%Y") %></p>
+        </div>
+
+        <div>
+          <label>Amount</label>
+          <p class="fw-bold text-success">
+            <%= number_to_currency(@payment.amount, unit: "₹") %>
+          </p>
+        </div>
+
+        <div>
+          <label>Payment Mode</label>
+          <p><%= @payment.payment_mode %></p>
+        </div>
+
+        <div>
+          <label>Reference No</label>
+          <p><%= @payment.reference.presence || "-" %></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CUSTOMER & INVOICE ===== -->
+    <div class="details-section">
+      <h4>Linked Records</h4>
+
+      <div class="details-grid">
+        <div>
+          <label>Customer</label>
+          <p>
+            <%= link_to @payment.customer.name,
+                  customer_path(@payment.customer),
+                  class: "link-muted" %>
+          </p>
+        </div>
+
+        <div>
+          <label>Invoice</label>
+          <p>
+            <% if @payment.invoice.present? %>
+              <%= link_to @payment.invoice.invoice_number,
+                    invoice_path(@payment.invoice),
+                    class: "link-muted" %>
+            <% else %>
+              <span class="badge badge-neutral">Advance Payment</span>
+            <% end %>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LEDGER IMPACT ===== -->
+    <div class="details-section">
+      <h4>Ledger Impact</h4>
+
+      <p class="text-muted">
+        This payment is recorded as a <strong>Credit</strong> entry
+        in the customer ledger.
+      </p>
+    </div>
+
+  </div>
+
+</div>

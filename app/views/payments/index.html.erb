@@ -1,0 +1,81 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Payments</h2>
+        <p>All payments received from customers</p>
+      </div>
+
+      <%= link_to "Receive Payment",
+            new_customer_payment_path(@customer || Customer.first),
+            class: "primary-btn" %>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Invoice</th>
+            <th>Mode</th>
+            <th>Reference</th>
+            <th class="text-end">Amount (₹)</th>
+            <th class="text-end">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @payments.each_with_index do |payment, i| %>
+            <tr>
+              <td><%= i + 1 %></td>
+              <td><%= payment.payment_date.strftime("%d-%b-%Y") %></td>
+
+              <td class="truncate">
+                <%= payment.customer.name %>
+              </td>
+
+              <td>
+                <% if payment.invoice.present? %>
+                  <%= link_to payment.invoice.invoice_number,
+                        invoice_path(payment.invoice),
+                        class: "link-muted" %>
+                <% else %>
+                  <span class="badge badge-neutral">Advance</span>
+                <% end %>
+              </td>
+
+              <td><%= payment.payment_mode %></td>
+              <td><%= payment.reference.presence || "-" %></td>
+
+              <td class="text-end fw-bold text-success">
+                <%= number_to_currency(payment.amount, unit: "₹") %>
+              </td>
+
+              <td class="text-end">
+                <%= link_to "View",
+                      customer_payment_path(payment.customer, payment),
+                      class: "table-btn view-btn" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @payments.empty? %>
+            <tr>
+              <td colspan="8" class="empty-state">
+                No payments recorded yet.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>

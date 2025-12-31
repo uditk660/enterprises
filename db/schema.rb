@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251231154645) do
+ActiveRecord::Schema.define(version: 20251231174139) do
 
   create_table "bank_accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "company_id"
@@ -100,6 +100,34 @@ ActiveRecord::Schema.define(version: 20251231154645) do
     t.index ["invoice_number"], name: "index_invoices_on_invoice_number", unique: true, using: :btree
   end
 
+  create_table "ledger_entries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "customer_id"
+    t.integer  "invoice_id"
+    t.date     "entry_date"
+    t.string   "entry_type"
+    t.string   "description"
+    t.decimal  "debit",       precision: 12, scale: 2
+    t.decimal  "credit",      precision: 12, scale: 2
+    t.decimal  "balance",     precision: 12, scale: 2
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["customer_id"], name: "index_ledger_entries_on_customer_id", using: :btree
+    t.index ["invoice_id"], name: "index_ledger_entries_on_invoice_id", using: :btree
+  end
+
+  create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "customer_id"
+    t.integer  "invoice_id"
+    t.date     "payment_date"
+    t.decimal  "amount",       precision: 12, scale: 2
+    t.string   "payment_mode"
+    t.string   "reference"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.index ["customer_id"], name: "index_payments_on_customer_id", using: :btree
+    t.index ["invoice_id"], name: "index_payments_on_invoice_id", using: :btree
+  end
+
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.string   "name",                                                    null: false
     t.decimal  "price",          precision: 10, scale: 2,                 null: false
@@ -129,4 +157,8 @@ ActiveRecord::Schema.define(version: 20251231154645) do
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "customers"
+  add_foreign_key "ledger_entries", "customers"
+  add_foreign_key "ledger_entries", "invoices"
+  add_foreign_key "payments", "customers"
+  add_foreign_key "payments", "invoices"
 end

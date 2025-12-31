@@ -6,9 +6,9 @@ class CreateLedgerEntries < ActiveRecord::Migration[5.0]
       t.date :entry_date
       t.string :entry_type
       t.string :description
-      t.decimal :debit
-      t.decimal :credit
-      t.decimal :balance
+      t.decimal :debit,   precision: 12, scale: 2
+      t.decimal :credit, precision: 12, scale: 2
+      t.decimal :balance, precision: 12, scale: 2
 
       t.timestamps
     end
