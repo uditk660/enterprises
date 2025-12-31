@@ -1,0 +1,78 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <div class="company-form-header">
+      <h2>Receive Payment</h2>
+      <p>Record payment received from customer</p>
+    </div>
+
+    <%= form_for [@customer, @payment] do |f| %>
+
+      <% if @payment.errors.any? %>
+        <div class="company-errors">  
+          <ul>
+            <% @payment.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- ===== CUSTOMER & INVOICE ===== -->
+      <div class="form-row">
+        <div class="form-field half-width">
+          <%= f.label :customer_id, "Customer" %>
+          <%= f.collection_select :customer_id,
+                Customer.all.order(:name), :id, :name,
+                { prompt: "Select Customer" },
+                class: "form-control" %>
+        </div>
+
+        <div class="form-field half-width">
+          <%= f.label :invoice_id, "Invoice (Optional)" %>
+          <%= f.collection_select :invoice_id,
+                (@open_invoices || []), # only open invoices passed from controller
+                :id,
+                ->(i) { "#{i.invoice_number} | Due ₹#{i.outstanding_amount}" },
+                { prompt: "Advance / No Invoice" },
+                class: "form-control" %>
+        </div>
+      </div>
+
+      <!-- ===== PAYMENT DATE & AMOUNT ===== -->
+      <div class="form-row">
+        <div class="form-field half-width">
+          <%= f.label :payment_date %>
+          <%= f.date_field :payment_date, class: "form-control", value: @payment.payment_date || Date.today %>
+        </div>
+
+        <div class="form-field half-width">
+          <%= f.label :amount %>
+          <%= f.number_field :amount, step: 0.01, class: "form-control" %>
+        </div>
+      </div>
+
+      <!-- ===== MODE & REFERENCE ===== -->
+      <div class="form-row">
+        <div class="form-field half-width">
+          <%= f.label :payment_mode %>
+          <%= f.select :payment_mode,
+                ["Cash", "Bank Transfer", "Cheque", "UPI"],
+                { prompt: "Select Mode" },
+                class: "form-control" %>
+        </div>
+
+        <div class="form-field half-width">
+          <%= f.label :reference, "Reference / Txn No" %>
+          <%= f.text_field :reference, class: "form-control" %>
+        </div>
+      </div>
+
+      <!-- ===== SUBMIT ===== -->
+      <div class="form-actions mt-4">
+        <%= f.submit "Save Payment", class: "primary-btn" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- HEADER -->
+    <div class="company-list-header">
+      <div>
+        <h2>Customer Ledger</h2>
+        <p><strong><%= @customer.name %></strong></p>
+      </div>
+
+      <div class="action-group">
+        <%= link_to "Print Ledger",
+              ledger_customer_path(@customer, format: :pdf),
+              class: "secondary-btn" %>
+      </div>
+    </div>
+
+    <!-- LEDGER TABLE -->
+    <div class="table-wrapper">
+      <table class="enterprise-table ledger-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th class="text-end">Debit (₹)</th>
+            <th class="text-end">Credit (₹)</th>
+            <th class="text-end">Balance (₹)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @ledger_entries.each do |entry| %>
+            <tr>
+              <td><%= entry.entry_date.strftime("%d-%b-%Y") %></td>
+
+              <td><%= entry.description %></td>
+
+              <td class="text-end">
+                <%= entry.debit.to_f > 0 ? number_to_currency(entry.debit, unit: "₹") : "-" %>
+              </td>
+
+              <td class="text-end">
+                <%= entry.credit.to_f > 0 ? number_to_currency(entry.credit, unit: "₹") : "-" %>
+              </td>
+
+              <td class="text-end fw-bold">
+                <%= number_to_currency(entry.balance, unit: "₹") %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @ledger_entries.empty? %>
+            <tr>
+              <td colspan="5" class="empty-state">
+                No ledger entries found.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+</div>

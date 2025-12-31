@@ -1,7 +1,7 @@
 # app/controllers/customers_controller.rb
 class CustomersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :set_customer, only: [:show, :edit, :update, :destroy, :ledger]
 
   def index
     @customers = Customer.order(:name)
@@ -42,10 +42,19 @@ class CustomersController < ApplicationController
     end
   end
 
+  def ledger
+    @customer = Customer.find(params[:id])
+    @ledger_entries = @customer.ledger_entries.order(:entry_date, :id)
+  end
+
   private
 
   def set_customer
     @customer = Customer.find(params[:id])
+  end
+
+  def calculate_opening_balance
+    0 # future: date-wise opening balance
   end
 
   def customer_params

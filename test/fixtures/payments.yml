@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: one
+  invoice: one
+  payment_date: 2025-12-31
+  amount: 9.99
+  payment_mode: MyString
+  reference: MyString
+
+two:
+  customer: two
+  invoice: two
+  payment_date: 2025-12-31
+  amount: 9.99
+  payment_mode: MyString
+  reference: MyString
