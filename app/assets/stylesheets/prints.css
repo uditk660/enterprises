@@ -1,0 +1,113 @@
+/* ===== PRINT STYLES (GLOBAL) ===== */
+@media print {
+
+  body {
+    background: #fff !important;
+  }
+
+  .no-print,
+  .action-group,
+  .pagination-wrapper {
+    display: none !important;
+  }
+
+  .company-page,
+  .company-glass-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .company-list-header {
+    margin-bottom: 12px;
+  }
+
+  .closing-balance {
+    margin-bottom: 12px;
+    font-size: 13px;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    padding: 6px 8px !important;
+    font-size: 11px;
+  }
+
+  th {
+    background: #f5f5f5 !important;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
+
+
+/* ===== INVOICE HEADER INLINE SEARCH ===== */
+.invoice-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.invoice-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.invoice-search-form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.invoice-search-input {
+  height: 32px;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 260px;        /* increase width */
+  min-width: 260px;
+}
+
+.invoice-search-btn {
+  height: 32px;
+  width: 34px;
+  border-radius: 8px;
+  border: none;
+  background: #f1f1f1;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===== SORT LINKS ===== */
+.sort-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.sort-link:hover {
+  text-decoration: underline;
+}
+
+.sortable-column {
+  color: #333;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.sortable-column:hover {
+  color: #007bff;
+}
+
+/*===================================================================================*/
+

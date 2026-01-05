@@ -1,66 +1,158 @@
 <div class="company-page">
-
   <div class="company-glass-card">
 
-    <!-- HEADER -->
+    <!-- ===== ACTION BUTTONS ===== -->
+    <div class="action-group">
+      <%= link_to "← Back",
+            customer_path(@customer),
+            class: "btn-secondary btn-sm" %>
+
+      <%= link_to "Payments",
+            customer_payments_path(@customer),
+            class: "btn-outline btn-sm" %>
+
+      <%= link_to "Receive Payment",
+            new_customer_payment_path(@customer),
+            class: "btn-primary btn-sm" %>
+
+      <button onclick="window.print()" class="btn-outline btn-sm">
+         Print
+      </button>
+    </div>
+
+    <!-- ===== HEADER ===== -->
     <div class="company-list-header">
       <div>
         <h2>Customer Ledger</h2>
-        <p><strong><%= @customer.name %></strong></p>
+        <p>
+          <strong><%= @customer.name %></strong><br>
+          Running statement of account
+        </p>
       </div>
 
-      <div class="action-group">
-        <%= link_to "Print Ledger",
-              ledger_customer_path(@customer, format: :pdf),
-              class: "secondary-btn" %>
+      <!-- ===== EXPORT BAR ===== -->
+      <div class="ledger-toolbar">
+        <%= form_tag export_ledger_entries_path(format: :pdf),
+                     method: :get,
+                     target: "_blank",
+                     data: { turbo: false },
+                     class: "ledger-export-form" do %>
+
+          <div class="export-field">
+            <span>From</span>
+            <%= date_field_tag :from_date, params[:from_date].presence || Date.current, class: "export-input" %>
+          </div>
+
+          <div class="export-field">
+            <span>To</span>
+            <%= date_field_tag :to_date, params[:to_date].presence || Date.current, class: "export-input" %>
+          </div>
+
+          <%= submit_tag "Export PDF", class: "btn btn-primary btn-sm export-btn" %>
+
+        <% end %>
+      </div>   
+    </div>
+
+    <div class="closing-balance">   
+      <div class="text-end">
+        Closing Balance:
+        <strong>₹ <%= number_with_precision(@closing_balance, precision: 2) %></strong>
       </div>
     </div>
 
-    <!-- LEDGER TABLE -->
-    <div class="table-wrapper">
-      <table class="enterprise-table ledger-table">
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper mt-4">
+      <table class="enterprise-table">
         <thead>
           <tr>
             <th>Date</th>
-            <th>Description</th>
+            <th>Particulars</th>
             <th class="text-end">Debit (₹)</th>
             <th class="text-end">Credit (₹)</th>
             <th class="text-end">Balance (₹)</th>
+            <th class="text-center">Status</th>
           </tr>
         </thead>
 
         <tbody>
+          <!-- 🔹 OPENING BALANCE -->
+          <tr class="opening-balance-row">
+            <td>-</td>
+            <td><strong>Opening Balance (Carry Forward)</strong></td>
+            <td></td>
+            <td></td>
+            <td class="text-end fw-bold">
+              <%= number_to_currency(@opening_balance, unit: "₹") %>
+            </td>
+            <td class="text-center">-</td>
+          </tr>
+
+          <% running_balance = @opening_balance %>
+
           <% @ledger_entries.each do |entry| %>
+            <% running_balance += entry.debit.to_f - entry.credit.to_f %>
+
             <tr>
               <td><%= entry.entry_date.strftime("%d-%b-%Y") %></td>
 
-              <td><%= entry.description %></td>
-
-              <td class="text-end">
-                <%= entry.debit.to_f > 0 ? number_to_currency(entry.debit, unit: "₹") : "-" %>
+              <td class="truncate">
+                <%= entry.description %>
+                <% if entry.invoice.present? %>
+                  <br>
+                  <small class="text-muted">
+                    Invoice: 
+                    <%= link_to entry.invoice.invoice_number,
+                          invoice_path(entry.invoice),
+                          class: "link-muted" %>
+                  </small>
+                <% end %> <!-- THIS END FIXES THE SYNTAX ERROR -->
               </td>
 
-              <td class="text-end">
-                <%= entry.credit.to_f > 0 ? number_to_currency(entry.credit, unit: "₹") : "-" %>
+              <td class="text-end text-danger fw-bold">
+                <%= entry.debit > 0 ? number_to_currency(entry.debit, unit: "₹") : "-" %>
+              </td>
+
+              <td class="text-end text-success fw-bold">
+                <%= entry.credit > 0 ? number_to_currency(entry.credit, unit: "₹") : "-" %>
               </td>
 
               <td class="text-end fw-bold">
-                <%= number_to_currency(entry.balance, unit: "₹") %>
+                <%= number_to_currency(running_balance, unit: "₹") %>
+              </td>
+
+              <td class="text-center">
+                <% if entry.invoice.present? %>
+                  <span class="badge 
+                    <%= case entry.invoice.status
+                        when 'PAID' then 'badge-success'
+                        when 'PARTIAL' then 'badge-warning'
+                        else 'badge-danger'
+                        end %>">
+                    <%= entry.invoice.status %>
+                  </span>
+                <% else %>
+                  -
+                <% end %>
               </td>
             </tr>
           <% end %>
 
           <% if @ledger_entries.empty? %>
             <tr>
-              <td colspan="5" class="empty-state">
+              <td colspan="6" class="empty-state">
                 No ledger entries found.
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
+
+      <!-- ===== PAGINATION ===== -->
+      <div class="pagination-wrapper mt-4">
+        <%= paginate @ledger_entries %>
+      </div>
     </div>
 
   </div>
-
 </div>

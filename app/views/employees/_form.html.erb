@@ -1,0 +1,142 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== ACTION BAR ===== -->
+    <div class="action-group">
+      <%= link_to "← Back to Employees",
+            company_employees_path(@company),
+            class: "btn-secondary" %>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Employee Profile</h2>
+      <p>Manage employee personal, professional, and payroll details</p>
+    </div>
+
+    <%= form_for [@company, @employee] do |f| %>
+
+      <!-- ===== ERRORS ===== -->
+      <% if @employee.errors.any? %>
+        <div class="company-errors">
+          <ul>
+            <% @employee.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <!-- ===== BASIC DETAILS ===== -->
+      <div class="form-section">
+        <h4>Basic Information</h4>
+
+        <div class="form-field">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, placeholder: "First Name" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, placeholder: "Last Name" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :phone_number, "Phone Number" %>
+          <%= f.text_field :phone_number,
+                placeholder: "XXXXXXXXXX",
+                maxlength: 10,
+                inputmode: "numeric",
+                pattern: "[0-9]*",
+                class: "numeric-input phone-input" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :email %>
+          <%= f.email_field :email, placeholder: "employee@company.com" %>
+        </div>
+      </div>
+
+      <!-- ===== IDENTITY DETAILS ===== -->
+      <div class="form-section">
+        <h4>Identity Details</h4>
+
+        <div class="form-field">
+          <%= f.label :aadhaar_number, "Aadhaar Number" %>
+          <%= f.text_field :aadhaar_number,
+                placeholder: "XXXX XXXX XXXX",
+                maxlength: 12,
+                inputmode: "numeric",
+                pattern: "[0-9]*",
+                class: "numeric-input aadhaar-input" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :pan_number, "PAN Number" %>
+          <%= f.text_field :pan_number,
+                placeholder: "ABCDE1234F",
+                maxlength: 10,
+                class: "pan-input",
+                style: "text-transform: uppercase;" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :address %>
+          <%= f.text_area :address, rows: 2, placeholder: "Residential address" %>
+        </div>
+      </div>
+
+      <!-- ===== JOB DETAILS ===== -->
+      <div class="form-section">
+        <h4>Job Information</h4>
+
+        <div class="form-field">
+          <%= f.label :designation %>
+          <%= f.text_field :designation, placeholder: "Accountant / Sales Executive" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :department %>
+          <%= f.text_field :department, placeholder: "Accounts / Sales" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :joining_date %>
+          <%= f.date_field :joining_date %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :employee_status %>
+          <%= f.select :employee_status,
+                [["Active", "active"], ["Inactive", "inactive"], ["Resigned", "resigned"]],
+                { prompt: "Select Status" } %>
+        </div>
+      </div>
+
+      <!-- ===== PAYROLL DETAILS ===== -->
+      <div class="form-section">
+        <h4>Payroll</h4>
+
+        <div class="form-field">
+          <%= f.label :salary, "Monthly Salary (₹)" %>
+          <%= f.number_field :salary, step: 0.01, placeholder: "50000.00" %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :notes %>
+          <%= f.text_area :notes, rows: 2, placeholder: "Internal notes (optional)" %>
+        </div>
+      </div>
+
+      <!-- ===== ACTIONS ===== -->
+      <div class="form-actions">
+        <%= f.submit @employee.new_record? ? "Create Employee" : "Update Employee",
+              class: "primary-btn" %>
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

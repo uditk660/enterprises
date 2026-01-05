@@ -1,0 +1,18 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <div class="action-group">
+      <%= link_to "← Back to Employee",
+            company_employee_path(@company, @employee),
+            class: "btn-secondary" %>
+    </div>
+
+    <div class="company-form-header">
+      <h2>Add Salary Structure</h2>
+      <p>Define salary components effective from a specific date</p>
+    </div>
+
+    <%= render "form" %>
+
+  </div>
+</div>

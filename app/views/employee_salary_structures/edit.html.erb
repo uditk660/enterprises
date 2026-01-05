@@ -1,0 +1,19 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <div class="action-group">
+      <%= link_to "← Back",
+            company_employee_employee_salary_structure_path(
+              @company, @employee, @salary_structure),
+            class: "btn-secondary" %>
+    </div>
+
+    <div class="company-form-header">
+      <h2>Edit Salary Structure</h2>
+      <p>Update salary details (history is preserved)</p>
+    </div>
+
+    <%= render "form" %>
+
+  </div>
+</div>

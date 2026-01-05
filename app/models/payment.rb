@@ -14,6 +14,7 @@ class Payment < ApplicationRecord
   private
 
   def create_ledger_credit
+    return unless invoice.present? # new change. Remove this if there any bug
     last_balance = customer.ledger_entries.order(:created_at).last&.balance || 0
 
     LedgerEntry.create!(
@@ -32,7 +33,7 @@ class Payment < ApplicationRecord
     if invoice.present?
       "Payment received for Invoice #{invoice.invoice_number}"
     else
-      "Advance payment received"
+      "Advance payment received" # is this correct or just write here N/A
     end
   end
 

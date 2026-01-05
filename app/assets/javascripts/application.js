@@ -14,3 +14,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.menu-card').forEach((card, index) => {
+    card.style.animation = `fadeInUp 0.8s ease forwards`;
+    card.style.animationDelay = `${index * 0.1}s`;
+  });
+});

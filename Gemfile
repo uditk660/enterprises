@@ -37,6 +37,11 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'kaminari'
+gem 'prawn'
+gem 'prawn-table'
+gem 'paperclip', '~> 6.1'
+gem 'aws-sdk-s3', '~> 1.48'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

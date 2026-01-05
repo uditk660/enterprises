@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee: one
+  month: 1
+  year: 1
+  basic: 9.99
+  hra: 9.99
+  allowances: 9.99
+  deductions: 9.99
+  net_salary: 9.99
+  status: MyString
+
+two:
+  employee: two
+  month: 1
+  year: 1
+  basic: 9.99
+  hra: 9.99
+  allowances: 9.99
+  deductions: 9.99
+  net_salary: 9.99
+  status: MyString

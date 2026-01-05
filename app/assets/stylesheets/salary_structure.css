@@ -1,0 +1,68 @@
+/* ===============================
+   SALARY HISTORY LIST
+================================ */
+
+.glass-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+  margin-bottom: 14px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.glass-list-row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Main salary block */
+.list-primary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.list-primary strong {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
+/* Meta line */
+.list-meta {
+  font-size: 0.85rem;
+  color: #6b7280; /* subtle gray */
+  display: flex;
+  align-items: center;
+}
+
+/* Status badge alignment */
+.list-meta .badge {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+
+/* Actions */
+.row-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.row-actions .btn-secondary {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #9ca3af;
+  font-size: 0.9rem;
+}

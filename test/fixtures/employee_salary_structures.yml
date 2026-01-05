@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  employee: one
+  basic: 
+  basic: 
+  hra: 
+  hra: 
+  allowances: 
+  allowances: 
+  deductions: 
+  deductions: 
+  effective_from: 2026-01-03
+  active: false
+
+two:
+  employee: two
+  basic: 
+  basic: 
+  hra: 
+  hra: 
+  allowances: 
+  allowances: 
+  deductions: 
+  deductions: 
+  effective_from: 2026-01-03
+  active: false

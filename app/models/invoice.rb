@@ -41,12 +41,47 @@ class Invoice < ApplicationRecord
       outstanding_amount <= 0
     end
 
+    def total_paid
+      ledger_entries.sum(:credit)
+    end
+
+    def status
+      return "PAID" if outstanding_amount <= 0
+      return "PARTIAL" if total_paid > 0
+      "DUE"
+    end
+
     # ===== ONLY OPEN INVOICES =====
     scope :open_invoices, -> {
       left_joins(:ledger_entries)
         .group("invoices.id")
         .having("COALESCE(SUM(ledger_entries.debit),0) > COALESCE(SUM(ledger_entries.credit),0)")
     }
+
+    scope :search, ->(q) {
+      return all if q.blank?
+
+      joins(:customer)
+        .where(
+          "invoices.invoice_number LIKE :q OR customers.name LIKE :q",
+          q: "%#{q}%"
+        )
+    }
+
+    scope :sorted, ->(sort, dir) {
+      allowed = {
+        "invoice_number" => "invoices.invoice_number",
+        "invoice_date"   => "invoices.invoice_date",
+        "total_amount"   => "invoices.total_amount",
+        "customer"       => "customers.name"
+      }
+
+      column = allowed[sort] || "invoices.invoice_date"
+      direction = dir == "asc" ? "asc" : "desc"
+
+      order("#{column} #{direction}")
+    }
+
 
   private
 
@@ -62,6 +97,7 @@ class Invoice < ApplicationRecord
       customer: customer,
       invoice: self,
       entry_date: invoice_date,
+      ledgerable_type: "customer",
       entry_type: "debit",
       description: "Invoice #{invoice_number}",
       debit: total_amount,

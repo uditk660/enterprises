@@ -3,8 +3,8 @@ class PaymentsController < ApplicationController
   before_action :set_customer
 
   def index
-    # binding.pry
     @payments = @customer.payments.order(payment_date: :desc)
+    @open_invoices = @customer.invoices.open_invoices
   end
 
   def new
@@ -26,6 +26,21 @@ class PaymentsController < ApplicationController
 
   def show
     @payment = @customer.payments.find(params[:id])
+  end
+
+  def print
+    @customer = Customer.find(params[:customer_id])
+    @payment  = @customer.payments.find(params[:id])
+
+    respond_to do |format|
+      format.pdf do
+        pdf = PaymentReceiptPdf.new(@payment)
+        send_data pdf.render,
+                  filename: "payment_receipt_#{@payment.id}.pdf",
+                  type: "application/pdf",
+                  disposition: "inline"
+      end
+    end
   end
 
   private
