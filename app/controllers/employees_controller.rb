@@ -47,6 +47,25 @@ class EmployeesController < ApplicationController
     redirect_to company_employees_path(@company), notice: "Employee deleted successfully."
   end
 
+  # To get the salary ledger
+  # Method: GET /companies/:company_id/employees/:id/salary_ledger
+  def salary_ledger
+    @company  = current_user.companies.find(params[:company_id])
+    @employee = @company.employees.find(params[:employee_id])
+    # @salary   = @employee.employee_monthly_salaries.find(params[:id])
+
+    @month = @salary.month
+
+    @ledger_entries = LedgerEntry
+      .where(
+        employee: @employee,
+        employee_monthly_salary: @salary
+      )
+      .order(:entry_date)
+
+    @closing_balance = @ledger_entries.sum("debit - credit")
+  end
+
   private
 
   def set_company

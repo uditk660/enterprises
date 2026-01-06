@@ -42,6 +42,7 @@ gem 'prawn'
 gem 'prawn-table'
 gem 'paperclip', '~> 6.1'
 gem 'aws-sdk-s3', '~> 1.48'
+gem "humanize"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

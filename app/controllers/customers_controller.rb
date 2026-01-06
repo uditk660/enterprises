@@ -77,8 +77,7 @@ class CustomersController < ApplicationController
     # 🔹 Closing balance (FULL ledger truth)
     @closing_balance = all_entries.sum("debit - credit")
   end
-
-
+  
   private
 
   def set_customer

@@ -22,6 +22,7 @@ class Payment < ApplicationRecord
       invoice: invoice,
       entry_date: payment_date,
       entry_type: "credit",
+      ledgerable_type: "customer",
       description: payment_description,
       debit: 0,
       credit: amount,

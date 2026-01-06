@@ -1,40 +1,83 @@
 <div class="company-page">
-  <div class="company-glass-card">
+  <div class="company-glass-card wide-card">
 
-    <div class="action-group">
+    <!-- ===== ACTION BAR ===== -->
+    <div class="action-group no-print">
       <%= link_to "← Salary History",
             company_employee_employee_salary_structures_path(@company, @employee),
-            class: "btn-secondary" %>
+            class: "btn-secondary btn-sm" %>
 
-      <%= link_to "Edit",
+      <%= link_to "Edit Structure",
             edit_company_employee_employee_salary_structure_path(
               @company, @employee, @salary_structure),
-            class: "primary-btn" %>
+            class: "btn-primary btn-sm" %>
     </div>
 
+    <!-- ===== HEADER ===== -->
     <div class="company-form-header">
       <h2>Salary Structure</h2>
-      <p>Effective from <%= l(@salary_structure.effective_from) %></p>
+      <p class="muted-text">
+        Effective from
+        <strong><%= l(@salary_structure.effective_from) %></strong>
+      </p>
     </div>
 
-    <div class="form-section">
-      <h4>Breakdown</h4>
+    <!-- ===== STATUS STRIP ===== -->
+    <div class="summary-strip">
+      <div class="summary-item">
+        <span>Gross Salary</span>
+        <strong>
+          ₹ <%= number_with_precision(@salary_structure.gross_salary, precision: 2) %>
+        </strong>
+      </div>
 
-      <p><strong>Basic:</strong> ₹ <%= @salary_structure.basic %></p>
-      <p><strong>HRA:</strong> ₹ <%= @salary_structure.hra %></p>
-      <p><strong>Allowances:</strong> ₹ <%= @salary_structure.allowances %></p>
-      <p><strong>Deductions:</strong> ₹ <%= @salary_structure.deductions %></p>
+      <div class="summary-item">
+        <span>Status</span>
+        <% if @salary_structure.active? %>
+          <span class="badge badge-success">ACTIVE</span>
+        <% else %>
+          <span class="badge badge-muted">INACTIVE</span>
+        <% end %>
+      </div>
+    </div>
 
-      <hr>
+    <!-- ===== BREAKDOWN ===== -->
+    <div class="form-section mt-4">
+      <h4>Salary Breakdown</h4>
 
-      <p>
-        <strong>Gross Salary:</strong>
-        ₹ <%= @salary_structure.gross_salary %>
-      </p>
+      <div class="two-column-grid">
+        <!-- Earnings -->
+        <div class="glass-sub-card">
+          <h5 class="section-title">Earnings</h5>
 
-      <% if @salary_structure.active? %>
-        <span class="badge badge-success">ACTIVE STRUCTURE</span>
-      <% end %>
+          <div class="row-item">
+            <span>Basic</span>
+            <strong>₹ <%= number_with_precision(@salary_structure.basic, precision: 2) %></strong>
+          </div>
+
+          <div class="row-item">
+            <span>HRA</span>
+            <strong>₹ <%= number_with_precision(@salary_structure.hra, precision: 2) %></strong>
+          </div>
+
+          <div class="row-item">
+            <span>Allowances</span>
+            <strong>₹ <%= number_with_precision(@salary_structure.allowances, precision: 2) %></strong>
+          </div>
+        </div>
+
+        <!-- Deductions -->
+        <div class="glass-sub-card">
+          <h5 class="section-title">Deductions</h5>
+
+          <div class="row-item">
+            <span>Total Deductions</span>
+            <strong class="text-danger">
+              ₹ <%= number_with_precision(@salary_structure.deductions, precision: 2) %>
+            </strong>
+          </div>
+        </div>
+      </div>
     </div>
 
   </div>

@@ -7,4 +7,13 @@ module ApplicationHelper
 	          params.permit(:q, :page).merge(sort: column, dir: dir),
 	          class: "sort-link"
 	end
+
+	def number_to_words(number)
+	  require "humanize"
+	  number.humanize
+	end
+
+	def csp_meta_tag
+    ""
+  end
 end
