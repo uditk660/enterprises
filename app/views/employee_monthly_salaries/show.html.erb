@@ -1,54 +1,102 @@
 <div class="company-page">
-  <div class="company-glass-card">
+  <div class="company-glass-card wide-card">
 
-    <div class="action-group">
+    <!-- ===== ACTION BAR ===== -->
+    <div class="action-group no-print">
       <%= link_to "← Monthly Salaries",
             company_employee_employee_monthly_salaries_path(@company, @employee),
-            class: "btn-secondary" %>
+            class: "btn-secondary btn-sm" %>
+
+      <%= link_to "Print Salary Slip",
+            print_company_employee_employee_monthly_salary_path(@company, @employee, @monthly_salary),
+            target: "_blank",
+            class: "btn-outline btn-sm" %>
     </div>
 
+    <!-- ===== HEADER ===== -->
     <div class="company-form-header">
-      <h2>
-        <%= @monthly_salary.month.strftime("%B %Y") %>
-      </h2>
-      <p>Salary details</p>
+      <h2><%= @monthly_salary.month.strftime("%B %Y") %></h2>
+      <p class="muted-text">
+        Salary Details for
+        <strong><%= @employee.full_name %></strong>
+      </p>
     </div>
 
-    <div class="form-section">
-      <h4>Summary</h4>
-      <p><strong>Status:</strong>
+    <!-- ===== SUMMARY STRIP ===== -->
+    <div class="summary-strip">
+      <div class="summary-item">
+        <span>Status</span>
         <span class="badge <%= @monthly_salary.paid? ? 'badge-success' : 'badge-warning' %>">
           <%= @monthly_salary.payment_status.upcase %>
         </span>
-      </p>
+      </div>
+
+      <div class="summary-item">
+        <span>Net Salary</span>
+        <strong>
+          ₹ <%= number_with_precision(@monthly_salary.net_salary, precision: 2) %>
+        </strong>
+      </div>
     </div>
 
-    <div class="form-section">
-      <h4>Breakdown</h4>
-      <p><strong>Basic:</strong> ₹ <%= @monthly_salary.basic_salary %></p>
-      <p><strong>Allowances:</strong> ₹ <%= @monthly_salary.allowances %></p>
-      <p><strong>Deductions:</strong> ₹ <%= @monthly_salary.deductions %></p>
-      <p><strong>Net Salary:</strong>
-        ₹ <strong><%= @monthly_salary.net_salary %></strong>
-      </p>
-    </div>
+    <!-- ===== BREAKDOWN ===== -->
+    <div class="form-section mt-4">
+      <h4>Salary Breakdown</h4>
 
-    <div class="form-section">
-      <h4>Notes</h4>
-      <p><%= @monthly_salary.notes.presence || "—" %></p>
-    </div>
+      <div class="two-column-grid">
+        <!-- Earnings -->
+        <div class="glass-sub-card">
+          <h5 class="section-title">Earnings</h5>
 
-    <% if @monthly_salary.pending? %>
-        <div class="form-section text-end">
-          <%= button_to "Confirm Payment",
-                confirm_payment_company_employee_employee_monthly_salary_path(
-                  @company, @employee, @monthly_salary
-                ),
-                method: :post,
-                class: "btn btn-success",
-                data: { confirm: "Confirm salary payment for this month?" } %>
+          <div class="row-item">
+            <span>Basic</span>
+            <strong>
+              ₹ <%= number_with_precision(@monthly_salary.basic_salary, precision: 2) %>
+            </strong>
+          </div>
+
+          <div class="row-item">
+            <span>Allowances</span>
+            <strong>
+              ₹ <%= number_with_precision(@monthly_salary.allowances, precision: 2) %>
+            </strong>
+          </div>
         </div>
-      <% end %>
+
+        <!-- Deductions -->
+        <div class="glass-sub-card">
+          <h5 class="section-title">Deductions</h5>
+
+          <div class="row-item">
+            <span>Total Deductions</span>
+            <strong class="text-danger">
+              ₹ <%= number_with_precision(@monthly_salary.deductions, precision: 2) %>
+            </strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== NOTES ===== -->
+    <div class="form-section mt-4">
+      <h4>Notes</h4>
+      <p class="muted-text">
+        <%= @monthly_salary.notes.presence || "—" %>
+      </p>
+    </div>
+
+    <!-- ===== PAYMENT ACTION ===== -->
+    <% if @monthly_salary.pending? %>
+      <div class="form-section text-end no-print">
+        <%= button_to "Confirm Payment",
+              confirm_payment_company_employee_employee_monthly_salary_path(
+                @company, @employee, @monthly_salary
+              ),
+              method: :post,
+              class: "btn-primary",
+              data: { confirm: "Confirm salary payment for this month?" } %>
+      </div>
+    <% end %>
 
   </div>
 </div>

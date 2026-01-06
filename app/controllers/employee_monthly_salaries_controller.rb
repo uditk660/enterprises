@@ -1,7 +1,7 @@
 class EmployeeMonthlySalariesController < ApplicationController
-  before_action :set_company
-  before_action :set_employee
-  before_action :set_salary_structure
+  before_action :set_company, except: [:print]
+  before_action :set_employee, except: [:print]
+  before_action :set_salary_structure, except: [:print]
   before_action :set_monthly_salary, only: [:show, :edit, :update, :confirm_payment]
 
   def index
@@ -50,6 +50,35 @@ class EmployeeMonthlySalariesController < ApplicationController
     end
 
     redirect_to company_employee_employee_monthly_salary_path(@company, @employee, @monthly_salary), notice: "Salary marked as PAID"
+  end
+
+  # To get the salary ledger
+  # Method: GET /companies/:company_id/employees/:id/salary_ledger
+  def salary_ledger
+    @company  = current_user.companies.find(params[:company_id])
+    @employee = @company.employees.find(params[:employee_id])
+    @salary   = @employee.employee_monthly_salaries.find(params[:id])
+    
+    @month = @salary.month
+
+    @ledger_entries = LedgerEntry
+      .where(
+        employee: @employee,
+        employee_monthly_salary: @salary
+      )
+      .order(:entry_date)
+
+    @closing_balance = @ledger_entries.sum("debit - credit")
+  end
+
+  # To print the employee salary
+  # Method: GET /companies/:company_id/employees/:employee_id/employee_monthly_salaries/:id/print
+  def print
+    @company  = current_user.companies.find(params[:company_id])
+    @employee = @company.employees.find(params[:employee_id])
+    @monthly_salary = @employee.employee_monthly_salaries.find(params[:id])
+
+    render layout: "print"
   end
 
   ################ Private method goes here ################

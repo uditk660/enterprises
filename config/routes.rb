@@ -7,6 +7,8 @@ Rails.application.routes.draw do
       resources :employee_salary_structures
       resources :employee_monthly_salaries do
         post :confirm_payment, on: :member
+        get :print, on: :member
+        get :salary_ledger, on: :member
       end
     end
   end

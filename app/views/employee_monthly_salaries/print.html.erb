@@ -1,0 +1,203 @@
+<div class="a4-page">
+
+  <!-- ===== COMPANY HEADER ===== -->
+  <table>
+    <tr>
+      <td>
+        <h2 style="margin:0;"><%= @company.name %></h2>
+        <div class="muted">
+          <%= @company.address %><br>
+          GSTIN: <%= @company.gst_number.presence || "—" %>
+        </div>
+      </td>
+
+      <td class="text-right">
+        <strong>Salary Slip</strong><br>
+        <span class="muted">
+          <%= @monthly_salary.month.strftime("%B %Y") %>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- ===== EMPLOYEE INFO ===== -->
+  <table class="mt-20">
+    <tr>
+      <th>Employee Name</th>
+      <td><%= @employee.full_name %></td>
+
+      <th>Employee ID</th>
+      <td>EMP-<%= @employee.id.to_s.rjust(4, "0") %></td>
+    </tr>
+
+    <tr>
+      <th>Designation</th>
+      <td><%= @employee.designation || "—" %></td>
+
+      <th>Payment Status</th>
+      <td><%= @monthly_salary.payment_status.upcase %></td>
+    </tr>
+  </table>
+
+  <!-- ===== SALARY BREAKDOWN ===== -->
+  <table class="mt-30">
+    <thead>
+      <tr>
+        <th colspan="2">Earnings</th>
+        <th colspan="2">Deductions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr>
+        <td>Basic Salary</td>
+        <td class="text-right">
+          ₹ <%= number_with_precision(@monthly_salary.basic_salary, precision: 2) %>
+        </td>
+
+        <td>Deductions</td>
+        <td class="text-right">
+          ₹ <%= number_with_precision(@monthly_salary.deductions, precision: 2) %>
+        </td>
+      </tr>
+
+      <tr>
+        <td>Allowances</td>
+        <td class="text-right">
+          ₹ <%= number_with_precision(@monthly_salary.allowances, precision: 2) %>
+        </td>
+
+        <td></td>
+        <td></td>
+      </tr>
+    </tbody>
+
+    <tfoot>
+      <tr>
+        <th>Total Earnings</th>
+        <th class="text-right">
+          ₹ <%= number_with_precision(
+                @monthly_salary.basic_salary + @monthly_salary.allowances,
+                precision: 2
+              ) %>
+        </th>
+
+        <th>Total Deductions</th>
+        <th class="text-right">
+          ₹ <%= number_with_precision(@monthly_salary.deductions, precision: 2) %>
+        </th>
+      </tr>
+
+      <tr>
+        <th colspan="3">Net Salary</th>
+        <th class="text-right">
+          ₹ <%= number_with_precision(@monthly_salary.net_salary, precision: 2) %>
+        </th>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="mt-30">
+    <strong>Amount in Words:</strong><br>
+    <span class="muted">
+      <%= number_to_words(@monthly_salary.net_salary.to_i).titleize %> Rupees Only
+    </span>
+  </div>
+
+  <table class="mt-30" style="border:none;">
+    <tr>
+      <td style="border:none;">
+        <div class="muted">Employee Signature</div>
+      </td>
+
+      <td style="border:none;" class="text-right">
+        <div class="muted">Authorised Signatory</div>
+        <br><br>
+        <strong><%= @company.name %></strong>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+<style>
+  @media print {
+
+    /* RESET WEB UI */
+    * {
+      box-shadow: none !important;
+      background: white !important;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Times New Roman", serif;
+      color: #000;
+      font-size: 12pt;
+    }
+
+    .no-print,
+    .action-group,
+    nav,
+    footer {
+      display: none !important;
+    }
+
+    /* CONTAINER */
+    .company-page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 20mm;
+      margin: auto;
+    }
+
+    .company-glass-card {
+      border: 1px solid #000 !important;
+      padding: 16px !important;
+    }
+
+    /* HEADERS */
+    h1, h2, h3 {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    /* TABLES */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+
+    th, td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background: #f0f0f0 !important;
+      font-weight: bold;
+    }
+
+    /* FOOTER */
+    .print-footer {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .signature {
+      margin-top: 60px;
+      text-align: center;
+    }
+
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+  }
+</style>
+

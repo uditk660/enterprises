@@ -1,0 +1,91 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <!-- ===== ACTIONS ===== -->
+    <div class="action-group no-print">
+      <%= link_to "← Back",
+            company_employee_path(@employee.company, @employee),
+            class: "btn-secondary btn-sm" %>
+
+      <button onclick="window.print()" class="btn-outline btn-sm">
+        Print
+      </button>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Salary Ledger</h2>
+        <p>
+          Employee:
+          <strong><%= @employee.full_name %></strong><br>
+          Period:
+          <strong><%= @month.present? ? @month.strftime("%B %Y") : "-" %></strong>
+        </p>
+
+        <button onclick="window.print()" class="btn-outline btn-sm"> Print</button>
+      </div>
+    </div>
+
+    <!-- ===== SUMMARY ===== -->
+    <div class="closing-balance">
+      <div class="text-end">
+        Net Salary:
+        <strong>₹ <%= number_with_precision(@salary.net_salary, precision: 2) %></strong>
+        &nbsp; | &nbsp;
+        Balance Payable:
+        <strong>₹ <%= number_with_precision(@closing_balance, precision: 2) %></strong>
+      </div>
+    </div>
+
+    <!-- ===== TABLE ===== -->
+    <div class="table-wrapper mt-4">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Particulars</th>
+            <th class="text-end">Debit (₹)</th>
+            <th class="text-end">Credit (₹)</th>
+            <th class="text-end">Balance (₹)</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% running_balance = 0 %>
+
+          <% @ledger_entries.each do |entry| %>
+            <% running_balance += entry.debit.to_f - entry.credit.to_f %>
+
+            <tr>
+              <td><%= entry.entry_date.strftime("%d-%b-%Y") %></td>
+
+              <td><%= entry.description %></td>
+
+              <td class="text-end text-danger fw-bold">
+                <%= entry.debit > 0 ? number_to_currency(entry.debit, unit: "₹") : "-" %>
+              </td>
+
+              <td class="text-end text-success fw-bold">
+                <%= entry.credit > 0 ? number_to_currency(entry.credit, unit: "₹") : "-" %>
+              </td>
+
+              <td class="text-end fw-bold">
+                <%= number_to_currency(running_balance, unit: "₹") %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @ledger_entries.empty? %>
+            <tr>
+              <td colspan="5" class="empty-state">
+                No salary ledger entries found.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

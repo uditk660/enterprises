@@ -16,7 +16,7 @@ class PaymentsController < ApplicationController
   def create
     @payment = @customer.payments.new(payment_params)
     
-    if @payment.save
+    if @payment.save!
       redirect_to customer_payments_path(@customer), notice: "Payment recorded successfully."
     else
       @open_invoices = @customer.invoices.open_invoices
