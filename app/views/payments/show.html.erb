@@ -10,10 +10,13 @@
       </div>
 
       <div class="company-show-actions">
+        <%= link_to "Print / PDF", print_customer_payment_path(@payment.customer, @payment, format: :pdf), class: "primary-btn", target: "_blank" %>
+
         <%= link_to "Back",
               customer_payments_path,
               class: "secondary-btn" %>
       </div>
+
     </div>
 
     <!-- ===== PAYMENT DETAILS ===== -->

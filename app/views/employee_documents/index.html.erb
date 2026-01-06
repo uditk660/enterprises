@@ -1,0 +1,113 @@
+<div class="company-page">
+
+  <div class="company-glass-card">
+
+    <!-- ===== ACTION BAR ===== -->
+    <div class="action-group">
+      <%= link_to "← Back to Employee",
+            company_employee_path(@company, @employee),
+            class: "btn-secondary" %>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Employee Documents</h2>
+      <p>
+        <strong><%= @employee.full_name %></strong> •
+        <%= @employee.designation %>
+      </p>
+    </div>
+
+    <!-- ===== UPLOAD FORM ===== -->
+    <div class="form-section">
+      <h4>Upload New Document</h4>
+
+      <%= form_for [@company, @employee, @document],
+            html: { multipart: true } do |f| %>
+
+        <% if @document.errors.any? %>
+          <div class="company-errors">
+            <ul>
+              <% @document.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-grid">
+
+          <div class="form-field">
+            <%= f.label :document_type %>
+            <%= f.select :document_type,
+                  ["Aadhaar", "PAN", "Offer Letter", "Resume", "Photo", "Other"],
+                  { prompt: "Select document type" } %>
+          </div>
+
+          <div class="form-field">
+            <%= f.label :file, "Document File" %>
+            <%= f.file_field :file %>
+          </div>
+
+        </div>
+
+        <div class="form-field">
+          <%= f.label :notes %>
+          <%= f.text_area :notes,
+                rows: 2,
+                placeholder: "Optional notes about this document" %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.submit "Upload Document", class: "primary-btn" %>
+        </div>
+
+      <% end %>
+    </div>
+
+    <!-- ===== DOCUMENT LIST ===== -->
+    <div class="form-section">
+      <h4>Uploaded Documents</h4>
+
+      <% if @documents.any? %>
+
+        <div class="document-list">
+
+          <% @documents.each do |doc| %>
+            <% next unless doc.persisted? %>
+            <div class="document-row">
+
+              <div class="doc-meta">
+                <span class="doc-type"><%= doc.document_type %></span>
+                <span class="doc-name"><%= doc.file_file_name %></span>
+                <span class="doc-date">
+                  Uploaded <%= l(doc.created_at.to_date) %>
+                </span>
+              </div>
+
+              <div class="doc-actions">
+                <%= link_to "View",
+                      doc.file.url,
+                      target: "_blank",
+                      class: "btn-secondary" %>
+                
+                <%= link_to "Delete",
+                      company_employee_employee_document_path(@company, @employee, doc),
+                      method: :delete,
+                      data: { confirm: "Delete this document?" },
+                      class: "btn-danger" %>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+
+      <% else %>
+        <p class="empty-state">No documents uploaded yet.</p>
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>

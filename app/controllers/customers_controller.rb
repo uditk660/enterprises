@@ -42,10 +42,42 @@ class CustomersController < ApplicationController
     end
   end
 
+  # def ledger
+  #   @customer = Customer.find(params[:id])
+  #   all_entries = @customer.ledger_entries.order(:entry_date, :id)
+  #   # ✅ CORRECT closing balance (authoritative)
+  #   @closing_balance = all_entries.last&.balance || 0
+  #   # ✅ Paginated entries only for table
+  #   @ledger_entries = all_entries.page(params[:page]).per(20)
+  # end
+
   def ledger
     @customer = Customer.find(params[:id])
-    @ledger_entries = @customer.ledger_entries.order(:entry_date, :id)
+
+    from_date = params[:from_date].presence&.to_date
+    to_date   = params[:to_date].presence&.to_date
+
+    all_entries = @customer.ledger_entries.order(:entry_date, :id)
+
+    # 🔹 Opening Balance (Carry Forward)
+    if from_date
+      @opening_balance = all_entries
+        .where("entry_date < ?", from_date)
+        .sum("debit - credit")
+
+      scoped_entries = all_entries.where(entry_date: from_date..(to_date || Date.today))
+    else
+      @opening_balance = 0
+      scoped_entries = all_entries
+    end
+
+    # 🔹 Paginated entries ONLY
+    @ledger_entries = scoped_entries.page(params[:page]).per(20)
+
+    # 🔹 Closing balance (FULL ledger truth)
+    @closing_balance = all_entries.sum("debit - credit")
   end
+
 
   private
 

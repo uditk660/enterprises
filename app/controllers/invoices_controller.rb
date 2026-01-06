@@ -1,8 +1,16 @@
 class InvoicesController < ApplicationController
   before_action :set_invoice, only: [:show, :edit, :update, :destroy]
 
+  # def index
+  #   @invoices = Invoice.includes(:company, :customer).order(created_at: :desc)
+  # end
+
   def index
-    @invoices = Invoice.includes(:company, :customer).order(created_at: :desc)
+    @invoices = Invoice
+      .includes(:customer, :invoice_items)
+      .search(params[:q])
+      .sorted(params[:sort], params[:dir])
+      .page(params[:page]).per(20)
   end
 
   def show
@@ -18,7 +26,7 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
     calculate_totals(@invoice)
-    if @invoice.save
+    if @invoice.save!
       redirect_to @invoice, notice: "Invoice created successfully."
     else
       render :new
@@ -43,6 +51,20 @@ class InvoicesController < ApplicationController
     @invoice.destroy
     redirect_to invoices_path, notice: "Invoice deleted successfully."
   end
+
+  def ledger
+    @invoice = Invoice.find(params[:id])
+    @customer = @invoice.customer
+
+    @ledger_entries = LedgerEntry
+      .where(invoice_id: @invoice.id)
+      .order(:entry_date)
+
+    @opening_balance = 0.0
+
+    @closing_balance = @ledger_entries.sum("debit - credit")
+  end
+
 
   private
 

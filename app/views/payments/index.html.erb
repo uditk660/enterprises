@@ -1,5 +1,4 @@
 <div class="company-page">
-
   <div class="company-glass-card">
 
     <!-- ===== HEADER ===== -->
@@ -34,6 +33,7 @@
           <% @payments.each_with_index do |payment, i| %>
             <tr>
               <td><%= i + 1 %></td>
+
               <td><%= payment.payment_date.strftime("%d-%b-%Y") %></td>
 
               <td class="truncate">
@@ -57,10 +57,15 @@
                 <%= number_to_currency(payment.amount, unit: "₹") %>
               </td>
 
-              <td class="text-end">
+              <!-- ===== ACTION BUTTONS ===== -->
+              <td class="text-end action-group">
                 <%= link_to "View",
                       customer_payment_path(payment.customer, payment),
                       class: "table-btn view-btn" %>
+
+                <%= link_to "Ledger",
+                      ledger_customer_path(payment.customer),
+                      class: "table-btn ledger-btn" %>
               </td>
             </tr>
           <% end %>
@@ -77,5 +82,4 @@
     </div>
 
   </div>
-
 </div>

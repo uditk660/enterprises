@@ -1,0 +1,70 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <!-- ===== ACTION BAR ===== -->
+    <div class="action-group">
+      <%= link_to "← Employee",
+            company_employee_path(@company, @employee),
+            class: "btn-secondary" %>
+
+      <%= link_to "Add Salary Structure",
+            new_company_employee_employee_salary_structure_path(@company, @employee),
+            class: "primary-btn" %>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <div class="company-form-header">
+      <h2>Salary History</h2>
+      <p>Chronological record of salary structures</p>
+    </div>
+
+    <!-- ===== LIST ===== -->
+    <div class="form-section">
+
+      <% if @salary_structures.any? %>
+        <% @salary_structures.each do |structure| %>
+
+          <div class="glass-list-row">
+
+            <!-- MAIN INFO -->
+            <div class="list-primary">
+              <strong>
+                ₹ <%= number_with_precision(structure.gross_salary, precision: 2) %>
+              </strong>
+
+              <div class="list-meta">
+                Effective from <%= l(structure.effective_from) %>
+
+                <% if structure.active? %>
+                  <span class="badge badge-success ms-2">ACTIVE</span>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- ACTIONS -->
+            <div class="row-actions">
+              <%= link_to "View",
+                    company_employee_employee_salary_structure_path(
+                      @company, @employee, structure),
+                    class: "btn-secondary" %>
+
+              <%= link_to "Edit",
+                    edit_company_employee_employee_salary_structure_path(
+                      @company, @employee, structure),
+                    class: "btn-secondary" %>
+            </div>
+
+          </div>
+
+        <% end %>
+      <% else %>
+        <div class="empty-state">
+          No salary structures added yet.
+        </div>
+      <% end %>
+
+    </div>
+
+
+  </div>
+</div>

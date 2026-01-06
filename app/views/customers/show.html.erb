@@ -37,6 +37,24 @@
       </div>
     </div>
 
+    <div class="page-actions mt-4">
+      <div class="action-group">
+
+        <%= link_to "Ledger",
+              ledger_customer_path(@customer),
+              class: "btn-outline btn-sm" %>
+
+        <%= link_to "Payments",
+              customer_payments_path(@customer),
+              class: "btn-outline btn-sm" %>
+
+        <%= link_to "Receive Payment",
+              new_customer_payment_path(@customer),
+              class: "btn-primary btn-sm" %>
+
+      </div>
+    </div>
+
   </div>
 
 </div>

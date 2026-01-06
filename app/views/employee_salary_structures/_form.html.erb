@@ -1,0 +1,46 @@
+<%= form_for [@company, @employee, @salary_structure] do |f| %>
+
+  <% if @salary_structure.errors.any? %>
+    <div class="company-errors">
+      <ul>
+        <% @salary_structure.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-section">
+    <h4>Salary Components</h4>
+
+    <div class="form-field">
+      <%= f.label :effective_from, "Effective From" %>
+      <%= f.date_field :effective_from %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :basic, "Basic Salary" %>
+      <%= f.number_field :basic, step: 0.01, placeholder: "e.g. 25000" %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :hra, "HRA" %>
+      <%= f.number_field :hra, step: 0.01, placeholder: "e.g. 10000" %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :allowances, "Other Allowances" %>
+      <%= f.number_field :allowances, step: 0.01, placeholder: "e.g. 5000" %>
+    </div>
+
+    <div class="form-field">
+      <%= f.label :deductions, "Deductions" %>
+      <%= f.number_field :deductions, step: 0.01, placeholder: "e.g. 2000" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit class: "primary-btn" %>
+  </div>
+
+<% end %>

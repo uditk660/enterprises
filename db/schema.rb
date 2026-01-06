@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20251231174139) do
+ActiveRecord::Schema.define(version: 20260105163443) do
 
   create_table "bank_accounts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
     t.integer  "company_id"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20251231174139) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.string   "udyam_number"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_companies_on_user_id", using: :btree
   end
 
   create_table "customers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -68,6 +70,87 @@ ActiveRecord::Schema.define(version: 20251231174139) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.text     "address",    limit: 65535
+  end
+
+  create_table "employee_documents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "employee_id"
+    t.string   "title"
+    t.string   "document_type"
+    t.text     "notes",             limit: 65535
+    t.string   "file_file_name"
+    t.string   "file_content_type"
+    t.bigint   "file_file_size"
+    t.datetime "file_updated_at"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.index ["employee_id"], name: "index_employee_documents_on_employee_id", using: :btree
+  end
+
+  create_table "employee_monthly_salaries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "employee_id"
+    t.integer  "employee_salary_structure_id"
+    t.date     "month"
+    t.decimal  "basic_salary",                               precision: 12, scale: 2
+    t.decimal  "allowances",                                 precision: 12, scale: 2
+    t.decimal  "deductions",                                 precision: 12, scale: 2
+    t.decimal  "net_salary",                                 precision: 12, scale: 2
+    t.string   "payment_status"
+    t.date     "paid_on"
+    t.text     "notes",                        limit: 65535
+    t.datetime "created_at",                                                          null: false
+    t.datetime "updated_at",                                                          null: false
+    t.index ["employee_id"], name: "index_employee_monthly_salaries_on_employee_id", using: :btree
+    t.index ["employee_salary_structure_id"], name: "index_employee_monthly_salaries_on_employee_salary_structure_id", using: :btree
+  end
+
+  create_table "employee_salaries", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "employee_id"
+    t.integer  "month"
+    t.integer  "year"
+    t.decimal  "basic",       precision: 12, scale: 2
+    t.decimal  "hra",         precision: 12, scale: 2
+    t.decimal  "allowances",  precision: 12, scale: 2
+    t.decimal  "deductions",  precision: 12, scale: 2
+    t.decimal  "net_salary",  precision: 12, scale: 2
+    t.string   "status",                               default: "UNPAID"
+    t.datetime "created_at",                                              null: false
+    t.datetime "updated_at",                                              null: false
+    t.index ["employee_id"], name: "index_employee_salaries_on_employee_id", using: :btree
+  end
+
+  create_table "employee_salary_structures", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "employee_id"
+    t.decimal  "basic",          precision: 12, scale: 2
+    t.decimal  "hra",            precision: 12, scale: 2
+    t.decimal  "allowances",     precision: 12, scale: 2
+    t.decimal  "deductions",     precision: 12, scale: 2
+    t.date     "effective_from"
+    t.boolean  "active",                                  default: true
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.index ["employee_id"], name: "index_employee_salary_structures_on_employee_id", using: :btree
+  end
+
+  create_table "employees", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
+    t.integer  "company_id"
+    t.integer  "user_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "aadhaar_number"
+    t.string   "pan_number"
+    t.string   "designation"
+    t.string   "department"
+    t.date     "joining_date"
+    t.decimal  "salary",                        precision: 12, scale: 2
+    t.string   "employee_status"
+    t.text     "address",         limit: 65535
+    t.text     "notes",           limit: 65535
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.index ["company_id"], name: "index_employees_on_company_id", using: :btree
+    t.index ["user_id"], name: "index_employees_on_user_id", using: :btree
   end
 
   create_table "invoice_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -106,13 +189,19 @@ ActiveRecord::Schema.define(version: 20251231174139) do
     t.date     "entry_date"
     t.string   "entry_type"
     t.string   "description"
-    t.decimal  "debit",       precision: 12, scale: 2
-    t.decimal  "credit",      precision: 12, scale: 2
-    t.decimal  "balance",     precision: 12, scale: 2
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.decimal  "debit",                      precision: 12, scale: 2
+    t.decimal  "credit",                     precision: 12, scale: 2
+    t.decimal  "balance",                    precision: 12, scale: 2
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
+    t.string   "ledgerable_type"
+    t.integer  "employee_id"
+    t.integer  "employee_monthly_salary_id"
     t.index ["customer_id"], name: "index_ledger_entries_on_customer_id", using: :btree
+    t.index ["employee_id"], name: "index_ledger_entries_on_employee_id", using: :btree
+    t.index ["employee_monthly_salary_id"], name: "index_ledger_entries_on_employee_monthly_salary_id", using: :btree
     t.index ["invoice_id"], name: "index_ledger_entries_on_invoice_id", using: :btree
+    t.index ["ledgerable_type"], name: "index_ledger_entries_on_ledgerable_type", using: :btree
   end
 
   create_table "payments", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci" do |t|
@@ -154,6 +243,14 @@ ActiveRecord::Schema.define(version: 20251231174139) do
   add_foreign_key "bill_items", "products"
   add_foreign_key "bills", "companies"
   add_foreign_key "bills", "customers"
+  add_foreign_key "companies", "users"
+  add_foreign_key "employee_documents", "employees"
+  add_foreign_key "employee_monthly_salaries", "employee_salary_structures"
+  add_foreign_key "employee_monthly_salaries", "employees"
+  add_foreign_key "employee_salaries", "employees"
+  add_foreign_key "employee_salary_structures", "employees"
+  add_foreign_key "employees", "companies"
+  add_foreign_key "employees", "users"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "companies"
   add_foreign_key "invoices", "customers"

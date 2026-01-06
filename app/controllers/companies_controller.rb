@@ -4,7 +4,8 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update]
 
   def index
-    @companies = Company.order(:name)
+    # @companies = Company.order(:name)
+    @companies = current_user.companies.order(:name)
   end
 
   def show

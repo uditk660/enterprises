@@ -1,0 +1,71 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+     <!-- ===== HEADER ===== -->
+    <div class="company-list-header">
+      <div>
+        <h2>Employees</h2>
+        <p>Employee master data for this company</p>
+      </div>
+
+      <%= link_to "Add Employee",
+            new_company_employee_path(@company),
+            class: "primary-btn" %>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="enterprise-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @employees.each do |employee| %>
+            <tr>
+              <td>
+                <strong><%= employee.full_name %></strong><br>
+                <span class="muted"><%= employee.email.presence || "—" %></span>
+              </td>
+
+              <td><%= employee.designation %></td>
+              <td><%= employee.department.presence || "—" %></td>
+              <td><%= employee.phone_number.presence || "—" %></td>
+
+              <td>
+                <span class="status-pill <%= employee.employee_status %>">
+                  <%= employee.employee_status.capitalize %>
+                </span>
+              </td>
+
+              <td class="text-right">
+                <%= link_to "View",
+                      company_employee_path(@company, employee),
+                      class: "link-btn" %>
+
+                <%= link_to "Edit",
+                      edit_company_employee_path(@company, employee),
+                      class: "link-btn" %>
+              </td>
+            </tr>
+          <% end %>
+
+          <% if @employees.empty? %>
+            <tr>
+              <td colspan="6" class="empty-state">
+                No employees added yet.
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

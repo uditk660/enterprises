@@ -1,0 +1,62 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <!-- ACTION BAR -->
+    <div class="action-group">
+      <%= link_to "← Employee",
+            company_employee_path(@company, @employee),
+            class: "btn-secondary" %>
+
+      <%= link_to "Generate Salary",
+            new_company_employee_employee_monthly_salary_path(@company, @employee),
+            class: "primary-btn" %>
+    </div>
+
+    <!-- HEADER -->
+    <div class="company-form-header">
+      <h2>Monthly Salaries</h2>
+      <p>Generated salary records</p>
+    </div>
+
+    <!-- LIST -->
+    <div class="form-section">
+      <% if @monthly_salaries.any? %>
+        <% @monthly_salaries.each do |salary| %>
+
+          <div class="glass-list-row">
+
+            <div class="list-primary">
+              <strong>
+                ₹ <%= number_with_precision(salary.net_salary, precision: 2) %>
+              </strong>
+
+              <div class="list-meta">
+                <%= salary.month.strftime("%B %Y") %>
+
+                <% if salary.paid? %>
+                  <span class="badge badge-success ms-2">PAID</span>
+                <% else %>
+                  <span class="badge badge-warning ms-2">PENDING</span>
+                <% end %>
+              </div>
+            </div>
+
+            <div class="row-actions">
+              <%= link_to "View",
+                    company_employee_employee_monthly_salary_path(
+                      @company, @employee, salary),
+                    class: "btn-secondary" %>
+            </div>
+
+          </div>
+
+        <% end %>
+      <% else %>
+        <div class="empty-state">
+          No salary generated yet.
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+</div>

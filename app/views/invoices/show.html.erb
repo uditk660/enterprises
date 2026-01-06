@@ -9,9 +9,16 @@
         <p>Details of the invoice including line items and totals</p>
       </div>
 
-      <div class="company-show-actions">
-        <%= link_to "Back", invoices_path, class: "secondary-btn" %>
+      <div class="action-group">
+        <%= link_to "View Ledger",
+              ledger_invoice_path(@invoice),
+              class: "btn-outline btn-sm" %>
+
+        <%= link_to "Back",
+              invoices_path,
+              class: "btn-secondary btn-sm" %>
       </div>
+
     </div>
 
     <!-- ===== MAIN DETAILS ===== -->

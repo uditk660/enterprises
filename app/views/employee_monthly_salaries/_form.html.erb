@@ -1,0 +1,65 @@
+<div class="company-page">
+  <div class="company-glass-card">
+
+    <div class="company-form-header">
+      <h2>Generate Monthly Salary</h2>
+      <p>Based on active salary structure</p>
+    </div>
+
+    <%= form_for [@company, @employee, @monthly_salary] do |f| %>
+
+      <% if @monthly_salary.errors.any? %>
+        <div class="company-errors">
+          <ul>
+            <% @monthly_salary.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-section">
+        <h4>Salary Period</h4>
+
+        <div class="form-field">
+          <%= f.label :month %>
+          <%= f.month_field :month_input, value: @monthly_salary.month&.strftime("%Y-%m") %>
+        </div>
+
+      </div>
+
+      <div class="form-section">
+        <h4>Salary Breakdown</h4>
+
+        <div class="form-field">
+          <%= f.label :basic_salary %>
+          <%= f.number_field :basic_salary, step: 0.01 %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :allowances %>
+          <%= f.number_field :allowances, step: 0.01 %>
+        </div>
+
+        <div class="form-field">
+          <%= f.label :deductions %>
+          <%= f.number_field :deductions, step: 0.01 %>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Notes</h4>
+
+        <div class="form-field">
+          <%= f.text_area :notes, rows: 2 %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Generate Salary", class: "primary-btn" %>
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
