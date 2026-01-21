@@ -136,8 +136,6 @@ GEM
       rake
     mini_mime (1.1.5)
     minitest (5.27.0)
-    mysql2 (0.5.7)
-      bigdecimal
     net-imap (0.5.13)
       date
       net-protocol
@@ -161,6 +159,8 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     pdf-core (0.10.0)
+    pg (1.6.3-arm64-darwin)
+    pg (1.6.3-x86_64-linux)
     prawn (2.5.0)
       matrix (~> 0.4)
       pdf-core (~> 0.10.0)
@@ -277,8 +277,8 @@ DEPENDENCIES
   jquery-rails
   kaminari
   listen (~> 3.0.5)
-  mysql2 (>= 0.3.18, < 0.6.0)
   paperclip (~> 6.1)
+  pg (~> 1.4)
   prawn
   prawn-table
   pry
