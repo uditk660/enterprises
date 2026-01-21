@@ -1,8 +1,8 @@
 require_relative 'boot'
 
+require 'logger'
 require 'rails/all'
 require 'paperclip/railtie'
-require 'logger'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
