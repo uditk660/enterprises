@@ -19,4 +19,4 @@ development:
 
 production:
   # Heroku ALWAYS provides DATABASE_URL
-  url: <%= ENV["DATABASE_URL"] %>
+  database: enterprises_production
